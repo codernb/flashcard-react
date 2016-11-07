@@ -7,10 +7,11 @@ class Footer extends Component {
     return (
       <div className="container">
         <p><FontAwesome name="copyright" />The {this.props.team} Team</p>
+        <p>Questionnaire counter: {this.props.qs.length}</p>
       </div>
     );
   }
-  
+
 }
 
 export default Footer;
