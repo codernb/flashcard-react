@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 
-class QuestionnaireCreateDialog extends Component {
+class QuestionnaireUpdateDialog extends Component {
 
     constructor(props) {
       super(props);
       this.state = {
         showModal: false
       };
+      this.bind();
+    }
+
+    bind() {
       this.open = this.open.bind(this);
       this.close = this.close.bind(this);
       this.handleChange = this.handleChange.bind(this);
@@ -24,11 +28,12 @@ class QuestionnaireCreateDialog extends Component {
     }
 
     handleChange(event) {
-      this.setState({title: event.target.value})
+      this.props.questionnaire.title = event.target.value;
+      //this.setState({title: event.target.value})
     }
 
     addQuestionnaire() {
-      this.props.addQuestionnaire({title: this.state.title});
+      this.props.updateQuestionnaire({title: this.state.title});
       this.close();
     }
 
@@ -36,7 +41,7 @@ class QuestionnaireCreateDialog extends Component {
       return(
         <div>
           <Button onClick={this.open}>
-            New
+            Update
           </Button>
           <Modal show={this.state.showModal} onHide={this.close}>
             <Modal.Header closeButton>
@@ -46,7 +51,7 @@ class QuestionnaireCreateDialog extends Component {
               <input type="text" onChange={this.handleChange} />
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.addQuestionnaire}>Create</Button>
+              <Button onClick={this.addQuestionnaire}>Update</Button>
             </Modal.Footer>
           </Modal>
         </div>
@@ -54,4 +59,4 @@ class QuestionnaireCreateDialog extends Component {
     }
 }
 
-export default QuestionnaireCreateDialog;
+export default QuestionnaireUpdateDialog;

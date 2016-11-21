@@ -20,6 +20,10 @@ class QuestionnaireContainer extends Component {
     this.setState({qs: this.props.qs});
   }
 
+  updateQuestionnaire(questionnaire) {
+    
+  }
+
   render() {
     return (
       <div className="container">
