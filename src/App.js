@@ -7,6 +7,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       qs:[
         {'id': 1, 'title': 'Test Title 1', 'description': 'Test Description 1'},
@@ -19,7 +20,6 @@ class App extends Component {
   }
 
   render() {
-
     return (
       <div>
         <Header version={this.props.version} />
@@ -28,7 +28,6 @@ class App extends Component {
       </div>
     );
   }
-
 }
 
 export default App;

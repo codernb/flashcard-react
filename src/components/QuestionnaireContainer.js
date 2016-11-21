@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ListItem from './ListItem';
 import Table from 'react-bootstrap/lib/Table';
-import Button from 'react-bootstrap/lib/Button';
 import QuestionnaireCreateDialog from './QuestionnaireCreateDialog';
 
 class QuestionnaireContainer extends Component {
@@ -12,16 +11,46 @@ class QuestionnaireContainer extends Component {
       qs: this.props.qs
     };
     this.addQuestionnaire = this.addQuestionnaire.bind(this);
+    this.updateQuestionnaire = this.updateQuestionnaire.bind(this);
+    this.deleteQuestionnaire = this.deleteQuestionnaire.bind(this);
+  }
+
+  componentDidMount() {
+      fetch("http://localhost:8080/flashcard-rest/questionnaires")
+      .then(response => response.json())
+      .then(json => this.setState({qs: json}));
   }
 
   addQuestionnaire(questionnaire) {
-    questionnaire.id = this.props.qs.length + 1;
-    this.props.qs.push(questionnaire);
-    this.setState({qs: this.props.qs});
+    questionnaire.description = "some test";
+    fetch("http://localhost:8080/flashcard-rest/questionnaires",
+    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(questionnaire) })
+    .then(response => response.json())
+    .then(json => {
+        var q = this.state.qs;
+        q.push(json);
+        this.setState({qs: q});
+    });
+
   }
 
   updateQuestionnaire(questionnaire) {
-    
+    fetch("http://localhost:8080/flashcard-rest/questionnaires",
+    { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(questionnaire) })
+    .then(response => response.json())
+    .then(json => {
+      var q = this.state.qs;
+      q[q.indexOf(questionnaire)] = json;
+      this.setState({qs: q});
+    });
+  }
+
+  deleteQuestionnaire(id) {
+    fetch("http://localhost:8080/flashcard-rest/questionnaires/" + id,
+    { method: 'DELETE' })
+    .then(response => {
+      this.setState({qs: this.state.qs.filter(a => a.id !== id)});
+    });
   }
 
   render() {
@@ -30,7 +59,7 @@ class QuestionnaireContainer extends Component {
         <QuestionnaireCreateDialog addQuestionnaire={this.addQuestionnaire} />
         <Table striped bordered>
           <tbody>
-            {this.props.qs.map((q) => <ListItem key={q.id} questionnaire={q} />)}
+            {this.state.qs.map((q) => <ListItem key={q.id} questionnaire={q} updateQuestionnaire={this.updateQuestionnaire} deleteQuestionnaire={this.deleteQuestionnaire} />)}
           </tbody>
         </Table>
       </div>

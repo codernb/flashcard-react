@@ -16,7 +16,7 @@ class QuestionnaireUpdateDialog extends Component {
       this.open = this.open.bind(this);
       this.close = this.close.bind(this);
       this.handleChange = this.handleChange.bind(this);
-      this.addQuestionnaire = this.addQuestionnaire.bind(this);
+      this.updateQuestionnaire = this.updateQuestionnaire.bind(this);
     }
 
     open() {
@@ -29,11 +29,10 @@ class QuestionnaireUpdateDialog extends Component {
 
     handleChange(event) {
       this.props.questionnaire.title = event.target.value;
-      //this.setState({title: event.target.value})
     }
 
-    addQuestionnaire() {
-      this.props.updateQuestionnaire({title: this.state.title});
+    updateQuestionnaire() {
+      this.props.updateQuestionnaire(this.props.questionnaire);
       this.close();
     }
 
@@ -45,13 +44,13 @@ class QuestionnaireUpdateDialog extends Component {
           </Button>
           <Modal show={this.state.showModal} onHide={this.close}>
             <Modal.Header closeButton>
-              <Modal.Title>Create Questionnaire</Modal.Title>
+              <Modal.Title>Update Questionnaire</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <input type="text" onChange={this.handleChange} />
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.addQuestionnaire}>Update</Button>
+              <Button onClick={this.updateQuestionnaire}>Update</Button>
             </Modal.Footer>
           </Modal>
         </div>
